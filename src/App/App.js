@@ -9,6 +9,7 @@ import dummyStore from "../dummy-store";
 import { getNotesForFolder, findNote, findFolder } from "../notes-helpers";
 import "./App.css";
 
+
 class App extends Component {
   state = {
     notes: [],
@@ -25,6 +26,7 @@ class App extends Component {
     return (
       <>
         {["/", "/folder/:folderId"].map(path => (
+
           <Route
             exact
             key={path}
@@ -40,7 +42,7 @@ class App extends Component {
             const { noteId } = routeProps.match.params;
             const note = findNote(notes, noteId) || {};
             const folder = findFolder(folders, note.folderId);
-            return <NotePageNav {...routeProps} folder={folder} />;
+            return <NotePageNav {...routeProps} folder={folder} />
           }}
         />
 
@@ -73,7 +75,6 @@ class App extends Component {
             );
           }}
         />
-        {/* <Route path="/add-note" component={NotePageNav} /> */}
       </>
     );
   }
@@ -109,7 +110,7 @@ class App extends Component {
   postFolder = (event, folderName) => {
     const { folders } = this.state
     event.preventDefault();
-    // const { folderName } = this.state;
+    // const {folderName} = this.state;
 
     console.log(folderName);
 

@@ -28,6 +28,7 @@ class AddFolder extends Component {
             name="addFolder"
             onChange={event => this.updateFolderName(event)}
             value={folderName}
+            required
           />
         </label>
         <button>Submit</button>

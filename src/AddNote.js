@@ -10,6 +10,7 @@ class AddNote extends Component {
 			folderId: "",
 		}
 	}
+
 	updateTitle = (event) => {
 		event.preventDefault();
 		this.setState({
@@ -24,6 +25,7 @@ class AddNote extends Component {
 		})
 		console.log("content", event.target.value);
 	}
+
 	updateFolderId = (event => {
 		this.setState({
 			folderId: event.target.value
@@ -34,6 +36,11 @@ class AddNote extends Component {
 
 	render() {
 		const folderSelection = this.props.folders.map(folder => <option value={folder.id} key={folder.id}>{folder.name}</option>)
+
+		if (this.props.folders === undefined) {
+			throw new Error('Folders Missing!')
+		}
+
 		return (
 			<form onSubmit={event => this.props.postNote(event, this.state.name, this.state.content, this.state.folderId)}>
 
@@ -42,14 +49,14 @@ class AddNote extends Component {
                    add error boundary
                    add PropTypes */}
 
-				<input type="text" placeholder="Note Title" onChange={event => this.updateTitle(event)}></input>
-				<input type="textarea" name='content' placeholder="Please add content here..." onChange={event => this.updateContent(event)} ></input>
-				<select onChange={event => this.updateFolderId(event)}>
+				<input type="text" placeholder="Note Title" onChange={event => this.updateTitle(event)} required></input><br />
+				<input type="textarea" name='content' placeholder="Please add content here..." onChange={event => this.updateContent(event)} required></input><br />
+				<select onChange={event => this.updateFolderId(event)} required>
 					<option value="" key="">Select folder: </option>
 					{folderSelection}
-				</select>
+				</select><br />
 
-				<button></button>
+				<button>Add Note</button>
 			</form>
 		)
 	}
