@@ -1,32 +1,40 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import CircleButton from '../CircleButton/CircleButton'
-import './NotePageNav.css'
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CircleButton from "../CircleButton/CircleButton";
+import "./NotePageNav.css";
+import AddFolder from "../AddFolder";
+import AddNote from "../AddNote";
 
 export default function NotePageNav(props) {
+  let condition;
+  if (props.match.path === "/add-folder") {
+    condition = <AddFolder postFolder={props.postFolder} folders={props.folders} />
+  }
+  if (props.match.path === "/add-note") {
+    condition = <AddNote postNote={props.postNote} folders={props.folders} />
+  }
+  console.log(props.match.path)
   return (
-    <div className='NotePageNav'>
+    <div className="NotePageNav">
       <CircleButton
-        tag='button'
-        role='link'
+        tag="button"
+        role="link"
         onClick={() => props.history.goBack()}
-        className='NotePageNav__back-button'
+        className="NotePageNav__back-button"
       >
-        <FontAwesomeIcon icon='chevron-left' />
+        <FontAwesomeIcon icon="chevron-left" />
         <br />
         Back
       </CircleButton>
-      {props.folder && (
-        <h3 className='NotePageNav__folder-name'>
-          {props.folder.name}
-        </h3>
-      )}
+      {condition}
+
+
     </div>
-  )
+  );
 }
 
 NotePageNav.defaultProps = {
   history: {
-    goBack: () => {}
+    goBack: () => { }
   }
-}
+};
