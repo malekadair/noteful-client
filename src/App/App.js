@@ -71,6 +71,7 @@ class App extends Component {
                 postNote={this.postNote}
                 folders={folders}
                 notes={notes}
+                isAuthed={true}
               />
             );
           }}
@@ -123,6 +124,12 @@ class App extends Component {
       },
       body: JSON.stringify({ id: "", name: folderName })
     })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
       .then(response => response.json())
       .then(data =>
         this.setState({
@@ -131,11 +138,25 @@ class App extends Component {
             data
           ]
         })
-      );
+      )
+      .catch(error => {
+        console.log(error);
+      })
+
+
 
     fetch("http://localhost:9090/folders")
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
       .then(response => response.json())
-      .then(data => console.log("get", data));
+      .then(data => console.log("get", data))
+      .catch(error => {
+        console.log(error)
+      })
   };
 
   postNote = (event, noteName, noteContent, noteFolderId) => {

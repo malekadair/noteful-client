@@ -8,6 +8,7 @@ import ErrorBoundary from "../ErrorBoundary";
 
 export default function NotePageNav(props) {
   let condition;
+  console.log(props.match.path)
   if (props.match.path === "/add-folder") {
     condition = <AddFolder postFolder={props.postFolder} folders={props.folders} />
   }
@@ -17,9 +18,9 @@ export default function NotePageNav(props) {
         <AddNote postNote={props.postNote} folders={props.folders} />
       </ErrorBoundary >
   }
-  console.log(props.match.path)
   return (
     <div className="NotePageNav">
+      <h3 className=".NotePageNav__folder-name"></h3>
       <CircleButton
         tag="button"
         role="link"
