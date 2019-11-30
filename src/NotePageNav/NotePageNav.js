@@ -14,7 +14,7 @@ export default function NotePageNav(props) {
   if (props.match.path === "/add-note") {
     condition =
       <ErrorBoundary>
-        <AddNote postNote={props.postNote} />
+        <AddNote postNote={props.postNote} folders={props.folders} />
       </ErrorBoundary >
   }
   console.log(props.match.path)
