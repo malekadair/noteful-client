@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class AddFolder extends Component {
   constructor() {
@@ -8,7 +9,6 @@ class AddFolder extends Component {
       folderName: ""
     };
   }
-
 
   updateFolderName = event => {
     const { value } = event.target;
@@ -20,7 +20,12 @@ class AddFolder extends Component {
   render() {
     const { folderName } = this.state;
     return (
-      <form onSubmit={event => this.props.postFolder(event, folderName)}>
+      <form
+        onSubmit={event => {
+          this.props.postFolder(event, folderName);
+          this.props.history.goBack();
+        }}
+      >
         <label>
           New Folder Name:
           <input
@@ -36,5 +41,8 @@ class AddFolder extends Component {
     );
   }
 }
-
+AddFolder.propTypes = {
+  postNote: PropTypes.func,
+  folders: PropTypes.array
+};
 export default AddFolder;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NoteListNav from "../NoteListNav/NoteListNav";
@@ -8,7 +8,6 @@ import NotePageMain from "../NotePageMain/NotePageMain";
 import dummyStore from "../dummy-store";
 import { getNotesForFolder, findNote, findFolder } from "../notes-helpers";
 import "./App.css";
-
 
 class App extends Component {
   state = {
@@ -26,7 +25,6 @@ class App extends Component {
     return (
       <>
         {["/", "/folder/:folderId"].map(path => (
-
           <Route
             exact
             key={path}
@@ -42,15 +40,13 @@ class App extends Component {
             const { noteId } = routeProps.match.params;
             const note = findNote(notes, noteId) || {};
             const folder = findFolder(folders, note.folderId);
-            return <NotePageNav {...routeProps} folder={folder} />
+            return <NotePageNav {...routeProps} folder={folder} />;
           }}
         />
 
         <Route
           path="/add-folder"
-          //   component={NotePageNav}
-          render={(routeProps) => {
-            // console.log("props", props)
+          render={routeProps => {
             return (
               <NotePageNav
                 {...routeProps}
@@ -64,7 +60,7 @@ class App extends Component {
 
         <Route
           path="/add-note"
-          render={(routeProps) => {
+          render={routeProps => {
             return (
               <NotePageNav
                 {...routeProps}
@@ -109,17 +105,13 @@ class App extends Component {
   }
 
   postFolder = (event, folderName) => {
-    const { folders } = this.state
+    const { folders } = this.state;
     event.preventDefault();
-    // const {folderName} = this.state;
 
-    console.log(folderName);
-
-    //post
     fetch("http://localhost:9090/folders", {
       method: "POST",
       headers: {
-        "Accept": "application/json, text/plain, /",
+        Accept: "application/json, text/plain, /",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ id: "", name: folderName })
@@ -133,62 +125,37 @@ class App extends Component {
       .then(response => response.json())
       .then(data =>
         this.setState({
-          folders: [
-            ...folders,
-            data
-          ]
+          folders: [...folders, data]
         })
       )
       .catch(error => {
         console.log(error);
-      })
-
-
-
-    fetch("http://localhost:9090/folders")
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      })
-      .then(response => response.json())
-      .then(data => console.log("get", data))
-      .catch(error => {
-        console.log(error)
-      })
+      });
   };
 
   postNote = (event, noteName, noteContent, noteFolderId) => {
-    event.preventDefault()
-    const { notes } = this.state
-    console.log('name', noteName);
-    console.log('content', noteContent);
-    console.log(this.getFolderId)
+    event.preventDefault();
+    const { notes } = this.state;
     fetch("http://localhost:9090/notes", {
       method: "POST",
       headers: {
-        "Accept": "application/json, text/plain, /",
+        Accept: "application/json, text/plain, /",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ id: "", name: noteName, content: noteContent, folderId: noteFolderId })
+      body: JSON.stringify({
+        id: "",
+        name: noteName,
+        content: noteContent,
+        folderId: noteFolderId
+      })
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         this.setState({
-          notes: [
-            ...notes,
-            data
-          ]
-        })
-      }
-      );
-
-
-  }
-
-
+          notes: [...notes, data]
+        });
+      });
+  };
 
   render() {
     return (
