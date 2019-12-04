@@ -88,7 +88,13 @@ class App extends Component {
             render={routeProps => {
               const { folderId } = routeProps.match.params;
               const notesForFolder = getNotesForFolder(notes, folderId);
-              return <NoteListMain {...routeProps} notes={notesForFolder} />;
+              return (
+                <NoteListMain
+                  {...routeProps}
+                  notes={notesForFolder}
+                  deleteNote={this.deleteNote}
+                />
+              );
             }}
           />
         ))}
@@ -97,12 +103,24 @@ class App extends Component {
           render={routeProps => {
             const { noteId } = routeProps.match.params;
             const note = findNote(notes, noteId);
-            return <NotePageMain {...routeProps} note={note} />;
+            return (
+              <NotePageMain
+                {...routeProps}
+                note={note}
+                deleteNote={this.deleteNote}
+              />
+            );
           }}
         />
       </>
     );
   }
+
+  deleteNote = noteId => {
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== noteId)
+    });
+  };
 
   postFolder = (event, folderName) => {
     const { folders } = this.state;
